@@ -1,5 +1,9 @@
 # Agent instructions
 
+## Design handoff (all design and UI work)
+
+Before creating, editing, renaming, reviewing or building from screens — in Figma, Pencil, Paper, Storybook or code — read [`skills/design-handoff/SKILL.md`](skills/design-handoff/SKILL.md) and the adapter for your tool, and follow them. In short: one container per flow, screens named `Feature/NN Step/State`, notes tagged `[NN Step]`, never set Ready for dev yourself. Run its `design-validate` check when asked whether a flow is ready for dev.
+
 ## Storybook MCP (`acme-web-storybook`)
 
 Project MCP config lives in [`.mcp.json`](.mcp.json) (HTTP → `http://localhost:6006/mcp` while Storybook is running). Import or sync it into your editor if it does not load `.mcp.json` automatically (for example Cursor uses `.cursor/mcp.json`; tools like [mcp-add](https://github.com/paoloricciuti/mcp-add) can copy from `.mcp.json`).

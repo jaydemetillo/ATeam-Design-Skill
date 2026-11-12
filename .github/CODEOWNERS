@@ -1,0 +1,3 @@
+# Changes to shared agent skills and to this file need a design-owner review.
+/skills/              @jaydemetillo
+/.github/CODEOWNERS   @jaydemetillo
