@@ -14,6 +14,8 @@ Figma, Paper, Pencil, or code/Storybook.
 ```
 skills/
   README.md                      ← install + contributing rules
+  design-validate/
+    SKILL.md                     ← /design-validate entry point (runs design-handoff §3)
   design-handoff/
     SKILL.md                     ← the rules + design-validate (tool-agnostic)
     adapters/
@@ -22,8 +24,8 @@ skills/
       pencil.md                  ← .pen files via pencil MCP
       code.md                    ← Storybook story titles
       codex.md                   ← running the skill from Codex
-.claude/skills/design-handoff  →  skills/design-handoff   (Claude Code, auto-loaded here)
-.agents/skills/design-handoff  →  skills/design-handoff   (Codex, auto-loaded here)
+.claude/skills/*  →  skills/*    (Claude Code, auto-loaded here)
+.agents/skills/*  →  skills/*    (Codex, auto-loaded here)
 AGENTS.md / CLAUDE.md            ← tell every agent to use the skill
 SECURITY.md                      ← what never to commit, controls, what to do if a secret leaks
 .github/                         ← secret scanning + workflow lint, Dependabot, CODEOWNERS
@@ -34,8 +36,8 @@ apps/ packages/ tooling/         ← unused app scaffold (docs/starter-kit.md); 
 
 | You use… | Do this |
 |---|---|
-| **Claude Code** | Work inside this repo — it loads automatically. Everywhere else: `ln -s "$(pwd)/skills/design-handoff" ~/.claude/skills/design-handoff` |
-| **claude.ai** | Zip `skills/design-handoff` and upload it under Settings → Capabilities → Skills (Team plan: an org admin can share it with everyone) |
+| **Claude Code** | Work inside this repo — it loads automatically. Everywhere else: `for s in design-handoff design-validate; do ln -s "$(pwd)/skills/$s" ~/.claude/skills/$s; done` |
+| **claude.ai** | Zip and upload **both** `skills/design-handoff` and `skills/design-validate` under Settings → Capabilities → Skills (Team plan: an org admin can share them with everyone). For Figma: Settings → Connectors → connect the **OGP MCP Gateway**, then ask Claude "turn on Figma in the OGP MCP Gateway" and sign in |
 | **Codex** | Works inside this repo. Everywhere else: see [`adapters/codex.md`](skills/design-handoff/adapters/codex.md) |
 | **Paper** | Connect Paper Desktop's MCP to your agent: see [`adapters/paper.md`](skills/design-handoff/adapters/paper.md) |
 | **Figma** | Connect the Figma MCP to your agent: see [`adapters/figma.md`](skills/design-handoff/adapters/figma.md) |
@@ -45,7 +47,7 @@ Then ask your agent:
 ```
 /design-validate <section link> against <Linear ticket or PRD link | "no PRD"> [and <repo>]
 ```
-(Codex: `$design-handoff validate …`)
+(Codex: `$design-validate …`)
 
 It checks screen names (and offers to rename — only after you say yes), reads the
 PRD and data model, and returns at most 10 items: **PM decisions first, then missing

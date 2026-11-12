@@ -94,6 +94,9 @@ adds the handoff structure on top.
 
 ## 3. design-validate
 
+Invoked through the separate [`design-validate`](../design-validate/SKILL.md) skill
+(`/design-validate` in Claude, `$design-validate` in Codex), which runs this section.
+
 ```
 /design-validate <container link> against <Linear ticket or PRD link | "no PRD"> [and <repo>]
 ```
