@@ -16,8 +16,8 @@ Use when screens are built in code (Claude Code, Codex, Cursor) rather than draw
   states sort under each step. Keep the two-digit `NN` so steps sort in order.
 - One story per state in §3.3 that applies (Empty, Error, Loading, Long text…) — these
   double as the visual test cases.
-- In this repo, follow `AGENTS.md`: use the Storybook MCP docs tools before using
-  any component prop, and run `test-run` after adding stories.
+- If the project has a Storybook MCP, use its docs tools before using any component
+  prop, and run its story tests after adding stories. Follow the project's own `AGENTS.md`.
 - **Read names**: list stories under `Flows/<Flow>` (Storybook MCP or by grepping
   `title:` in `*.stories.tsx`).
 - Use fixture data only in stories — never real user records.

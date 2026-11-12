@@ -25,7 +25,9 @@ skills/
 .claude/skills/design-handoff  →  skills/design-handoff   (Claude Code, auto-loaded here)
 .agents/skills/design-handoff  →  skills/design-handoff   (Codex, auto-loaded here)
 AGENTS.md / CLAUDE.md            ← tell every agent to use the skill
-docs/starter-kit.md              ← docs for the OGP Starter Kit app scaffold in apps/, packages/
+SECURITY.md                      ← what never to commit, controls, what to do if a secret leaks
+.github/                         ← secret scanning + workflow lint, Dependabot, CODEOWNERS
+apps/ packages/ tooling/         ← unused app scaffold (docs/starter-kit.md); not part of the skill
 ```
 
 ## Quick start
@@ -33,7 +35,7 @@ docs/starter-kit.md              ← docs for the OGP Starter Kit app scaffold i
 | You use… | Do this |
 |---|---|
 | **Claude Code** | Work inside this repo — it loads automatically. Everywhere else: `ln -s "$(pwd)/skills/design-handoff" ~/.claude/skills/design-handoff` |
-| **claude.ai** (Team plan) | An org admin uploads `skills/design-handoff` as a zip under Settings → Capabilities → Skills and shares it with the org |
+| **claude.ai** | Zip `skills/design-handoff` and upload it under Settings → Capabilities → Skills (Team plan: an org admin can share it with everyone) |
 | **Codex** | Works inside this repo. Everywhere else: see [`adapters/codex.md`](skills/design-handoff/adapters/codex.md) |
 | **Paper** | Connect Paper Desktop's MCP to your agent: see [`adapters/paper.md`](skills/design-handoff/adapters/paper.md) |
 | **Figma** | Connect the Figma MCP to your agent: see [`adapters/figma.md`](skills/design-handoff/adapters/figma.md) |
@@ -71,7 +73,8 @@ Full detail: [`skills/design-handoff/SKILL.md`](skills/design-handoff/SKILL.md).
 - Adding a tool? Copy an adapter, map each concept in SKILL.md §1, and add a row to
   the table in SKILL.md "Step 0".
 
-## Starter Kit scaffold
+## Security
 
-This repo was created from the OGP Starter Kit; the app scaffold (`apps/`, `packages/`,
-`tooling/`) and its CI are unchanged. See [`docs/starter-kit.md`](docs/starter-kit.md).
+Private repo. Every PR and push to `main` is scanned for secrets (gitleaks, full
+history); workflows are linted, pinned to commit SHAs and least-privilege; Dependabot
+watches for vulnerable Actions. Read [`SECURITY.md`](SECURITY.md) before contributing.

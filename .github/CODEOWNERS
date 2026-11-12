@@ -1,3 +1,5 @@
-# Changes to shared agent skills and to this file need a design-owner review.
+# Changes to skills, security config and workflows need owner review.
+*                     @jaydemetillo
 /skills/              @jaydemetillo
-/.github/CODEOWNERS   @jaydemetillo
+/.github/             @jaydemetillo
+/SECURITY.md          @jaydemetillo

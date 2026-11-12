@@ -1,23 +1,18 @@
 # Agent instructions
 
-## Design handoff (all design and UI work)
+This repo is the source of truth for the **design-handoff** skill.
 
-Before creating, editing, renaming, reviewing or building from screens — in Figma, Pencil, Paper, Storybook or code — read [`skills/design-handoff/SKILL.md`](skills/design-handoff/SKILL.md) and the adapter for your tool, and follow them. In short: one container per flow, screens named `Feature/NN Step/State`, notes tagged `[NN Step]`, never set Ready for dev yourself. Run its `design-validate` check when asked whether a flow is ready for dev.
+## Use the skill
+Before creating, editing, renaming, reviewing or building from screens — in Figma,
+Paper, Pencil, Storybook or code — read
+[`skills/design-handoff/SKILL.md`](skills/design-handoff/SKILL.md) and the adapter for
+your tool, and follow them. In short: one container per flow, screens named
+`Feature/NN Step/State`, notes tagged `[NN Step]`, never set Ready for dev yourself.
+Run its `design-validate` check when asked whether a flow is ready for dev.
 
-## Storybook MCP (`acme-web-storybook`)
-
-Project MCP config lives in [`.mcp.json`](.mcp.json) (HTTP → `http://localhost:6006/mcp` while Storybook is running). Import or sync it into your editor if it does not load `.mcp.json` automatically (for example Cursor uses `.cursor/mcp.json`; tools like [mcp-add](https://github.com/paoloricciuti/mcp-add) can copy from `.mcp.json`).
-
-When working on UI components or stories in this repo, use the **acme-web-storybook** MCP tools (Storybook must be running: `pnpm --filter @acme/web storybook`).
-
-- **Do not guess component APIs.** Before using any prop on `@acme/ui`, `@opengovsg/oui`, or app components, call `docs-list` and `docs-show` (or related docs tools) and only use documented props and patterns shown in examples.
-- Use `get-storybook-story-instructions` when creating or updating CSF stories so conventions match Storybook 10 and this project.
-- Use `stories-find-by-component`, `stories-preview`, and `stories-changed` when locating or validating stories during UI work.
-- After story or component changes, run `test-run` when the Storybook dev server is up to exercise Vitest-powered story tests.
-- Exclude human-only or anti-pattern stories from the agent manifest with the `!manifest` tag (see [Storybook manifests](https://storybook.js.org/docs/ai/manifests)).
-
-### Documentation habits
-
-- Add JSDoc on exported components and non-obvious props so manifests stay accurate (`react-docgen-typescript` is enabled in `.storybook/main.ts`).
-- Prefer focused stories that explain **why** a variant exists, not only **what** it renders.
-- Keep autodocs enabled via the global `autodocs` tag in `.storybook/preview.ts`; extend with MDX where prose guidance helps agents and humans.
+## Editing this repo
+- Skills are Markdown only. Keep `SKILL.md` tool-agnostic; tool specifics go in `adapters/`.
+- Never write secrets, tokens, real file keys, internal URLs, PRD text or user data
+  into any file — see [`SECURITY.md`](SECURITY.md). Use placeholders like `<fileKey>`.
+- Pin any GitHub Action to a full commit SHA with a version comment, and give each job
+  the least `permissions` it needs.
