@@ -1,180 +1,77 @@
-# Starter Kit
+# ATeam Design Skill
 
-> Looking for the older version of Starter Kit? Check out the [`v2` branch](https://github.com/opengovsg/starter-kit/tree/v2).
+Shared AI-agent skills for how **design hands off to engineering** at Open Government
+Products. One set of rules, used by Claude, Codex and any design tool they drive —
+Figma, Paper, Pencil, or code/Storybook.
 
-A technical kit to quickly build new products from
-[Open Government Products](https://open.gov.sg), Singapore.
+> **TL;DR** — each flow lives in its own container, screens are named
+> `Feature/NN Step/State`, notes are tagged `[NN Step]`, the agent runs
+> `design-validate`, the designer marks **Ready for dev**, engineers build from one
+> link and mark **Completed**.
 
-## Features
-
-- 🗼 Monorepo setup with [Turborepo](https://turborepo.com)
-- 🧙‍♂️ E2E typesafety with [tRPC v11](https://trpc.io)
-- ⚡ Full-stack React with [Next.js v16](https://nextjs.org)
-- 🌈 Database with [Prisma](https://www.prisma.io/)
-- ⚙️ VSCode extensions
-- 🎨 Oxlint + Oxfmt
-- 💚 CI setup using GitHub Actions:
-  - ✅ E2E testing with [Playwright](https://playwright.dev/)
-  - ✅ Unit testing with [Vitest](https://vitest.dev/)
-  - ✅ Visual regression testing with [Storybook](https://storybook.js.org/) + [Chromatic](https://www.chromatic.com/)
-  - ✅ Linting
-  - ✅ Type checking
-- 🔐 Env var validation
-
-## Project structure
+## What's in here
 
 ```
-.github
-  └─ workflows
-        └─ CI with pnpm cache setup
-.vscode
-  └─ Recommended extensions and settings for VSCode users
-oxfmt.config.ts
-  └─ Oxfmt formatter configuration
-apps
-  └─ web
-      ├─ Next.js 16
-      ├─ React 19
-      ├─ Tailwind CSS v4
-      └─ E2E Typesafe API Server & Client
-packages
-  ├─ common
-  │   └─ Shared utilities and types
-  ├─ db
-  │   └─ Typesafe db calls using Prisma + Kysely
-  ├─ logging
-  │   └─ Shared logging utilities
-  ├─ redis
-  │   └─ Redis client and utilities
-  ├─ ui
-  │   └─ UI component library using react-aria-components + @opengovsg/oui
-  └─ validators
-      └─ Shared Zod validation schemas
-tooling
-  ├─ github
-  │   └─ Shared GitHub Actions workflows
-  ├─ oxlint
-  │   └─ shared Oxlint configuration
-  ├─ storybook
-  │   └─ shared Storybook configuration
-  ├─ tailwind
-  │   └─ shared tailwind theme and configuration
-  └─ typescript
-      └─ shared tsconfig you can extend from
-
+skills/
+  README.md                      ← install + contributing rules
+  design-handoff/
+    SKILL.md                     ← the rules + design-validate (tool-agnostic)
+    adapters/
+      figma.md                   ← sections, frame names, Dev Mode
+      paper.md                   ← Paper Desktop MCP, artboards
+      pencil.md                  ← .pen files via pencil MCP
+      code.md                    ← Storybook story titles
+      codex.md                   ← running the skill from Codex
+.claude/skills/design-handoff  →  skills/design-handoff   (Claude Code, auto-loaded here)
+.agents/skills/design-handoff  →  skills/design-handoff   (Codex, auto-loaded here)
+AGENTS.md / CLAUDE.md            ← tell every agent to use the skill
+docs/starter-kit.md              ← docs for the OGP Starter Kit app scaffold in apps/, packages/
 ```
 
-## Working on your product
+## Quick start
 
-You may work on the codebase with:
+| You use… | Do this |
+|---|---|
+| **Claude Code** | Work inside this repo — it loads automatically. Everywhere else: `ln -s "$(pwd)/skills/design-handoff" ~/.claude/skills/design-handoff` |
+| **claude.ai** (Team plan) | An org admin uploads `skills/design-handoff` as a zip under Settings → Capabilities → Skills and shares it with the org |
+| **Codex** | Works inside this repo. Everywhere else: see [`adapters/codex.md`](skills/design-handoff/adapters/codex.md) |
+| **Paper** | Connect Paper Desktop's MCP to your agent: see [`adapters/paper.md`](skills/design-handoff/adapters/paper.md) |
+| **Figma** | Connect the Figma MCP to your agent: see [`adapters/figma.md`](skills/design-handoff/adapters/figma.md) |
 
-- A [GitHub Codespace](#using-github-codespaces) provided by us, or;
-- With your [local machine](#using-your-local-developer-environment).
+Then ask your agent:
 
-### Quick Start
-
-Copy this template using `Use this template` button on GitHub > `Create a new repository`.
-
-To change the repository name in the codebase, run the following command after cloning:
-
-```bash
-# Replace `@acme` (case-sensitive search) monorepo scope with your desired scope (e.g. `@myprojectname`)
-grep -rl '@acme' --exclude='*.md' --exclude-dir='.git' --exclude-dir='node_modules' . | xargs sed -i '' 's/@acme/@<your_project_name>/g'
-
-# Replace `Starter Kit` (case-sensitive search) with your project name with proper casing
-grep -rl 'Starter Kit' --exclude='*.md' --exclude-dir='.git' --exclude-dir='node_modules' . | xargs sed -i '' 's/Starter Kit/<your_project_name>/g'
 ```
-
-Then, follow the instructions to get started.
-
-### Using GitHub Codespaces
-
-Follow the official GitHub [guide](https://docs.github.com/en/codespaces/developing-in-codespaces/creating-a-codespace-for-a-repository)
-for developing with a codespace.
-
-### Using your local developer environment
-
-In summary:
-
-- Clone the repository to your local machine
-- Follow instructions for [running the app locally](#running-the-app-locally)
-
-## Running the app locally
-
-### 1. Setup dependencies
-
-```bash
-# Install dependencies
-pnpm i
-
-# Configure environment variables
-# There is an `.env.example` in the root directory you can use for reference
-cp .env.example .env
-
-# Start docker containers
-# use `docker compose down` to stop the containers afterwards
-docker compose up -d
-
-# Push the Prisma schema to the database
-pnpm db:push
+/design-validate <section link> against <Linear ticket or PRD link | "no PRD"> [and <repo>]
 ```
+(Codex: `$design-handoff validate …`)
 
-Optionally set `POSTMAN_API_KEY` to send login OTP emails via [Postman](https://postman.gov.sg).
-If not set, OTP emails will be logged to the console instead.
+It checks screen names (and offers to rename — only after you say yes), reads the
+PRD and data model, and returns at most 10 items: **PM decisions first, then missing
+states to draw.** Fix, rerun until clean, then mark the section Ready for dev and paste
+its link into Linear.
 
-#### Retrieving client-side environment variables in code
+## The rules in one screen
 
-⚠️ When adding client-only environment variables in NextJS, you must prefix the variable with `NEXT_PUBLIC_` to ensure that the variable is exposed to the browser. For example, if you want to add a variable called `MY_ENV_VAR`, you should add it to your `.env` file as `NEXT_PUBLIC_MY_ENV_VAR`.
+| | Rule |
+|---|---|
+| **Flow** | One container per flow (Figma section, Paper/Pencil frame, Storybook group), named after the flow |
+| **Screens** | `Feature/NN Step/State` — e.g. `Team/03 Add users/One selected`. Mobile: add `/Mobile` |
+| **Notes** | Text under the screen: `[04 Review] This list can scroll…` or `[04 Review/Choose admin] …` |
+| **Share** | One link to the container, never a list of screen links |
+| **Status** | Designer marks Ready for dev; engineer marks Completed. Agents never set either |
 
-You will also need to update the various environment files (like [apps/web/src/env.ts](apps/web/src/env.ts#L5) or [packages/db/src/env.ts](packages/db/src/env.ts#L6)) to explicitly reference the variable so NextJS will correctly bundle the environment variable into the client-side bundle.
+Full detail: [`skills/design-handoff/SKILL.md`](skills/design-handoff/SKILL.md).
 
-### 2. Adding a new package
+## Contributing
 
-To add a new package, simply run `pnpm turbo gen init` in the monorepo root. This will prompt you for a package name as well as if you want to install any dependencies to the new package (of course you can also do this yourself later).
+- Change skills by pull request; `.github/CODEOWNERS` requires a design-owner review on `skills/`.
+- Skills are Markdown only. **Never** commit secrets, tokens, real Figma file keys,
+  internal URLs, PRD text or user data — skills are loaded into third-party AI tools.
+  Use placeholders like `<fileKey>`.
+- Adding a tool? Copy an adapter, map each concept in SKILL.md §1, and add a row to
+  the table in SKILL.md "Step 0".
 
-The generator sets up the `package.json`, `tsconfig.json` and a `index.ts`, as well as configures all the necessary configurations for tooling around your package such as formatting, linting and typechecking. When the package is created, you're ready to go build out the package.
+## Starter Kit scaffold
 
-## Deployment
-
-Follow these instructions if you are familiar with building applications,
-and/or are in a hurry to prepare an environment to work on your product.
-
-If you are new, see our [Getting Started guide](https://start.open.gov.sg/docs/getting-started/prerequisites).
-
-If you are exploring what else you can do with Starter Kit,
-a more comprehensive set of documentation, including guides
-and tutorials, can be found [here](https://start.open.gov.sg).
-
-> The Vercel deployment outlined below is optimised for quick prototyping and development. It is **not recommended** for serious production use. \
-> \
-> For serious production use cases, consider directly deploying Starter Kit to AWS. We provide [a command line interface (CLI) tool](https://start.open.gov.sg/docs/guides/migrate-vercel-to-aws#cli) (for internal use only) that can help you deploy Starter Kit to a standardised AWS infrastructure.\
-> \
-> Nonetheless, on low-risk production use cases, Vercel can still be used as a production deployment. We have a document on when one might want to migrate to AWS [here](https://start.open.gov.sg/docs/guides/migrate-vercel-to-aws).
-
-### Deploy to Vercel
-
-Let's deploy the Next.js application to [Vercel](https://vercel.com). If you've never deployed a Turborepo app there, don't worry, the steps are quite straightforward. You can also read [the official Turborepo guide](https://vercel.com/docs/concepts/monorepos/turborepo) on deploying to Vercel.
-
-1. Create a new project on Vercel, select the `apps/web` folder as the root directory. Vercel's zero-config system should handle all configurations for you.
-
-2. Add the prerequisite environment variables outlined in the [Prerequisites](#prerequisites) section.
-
-3. Done! Your app should successfully deploy.
-
-#### Prerequisites
-
-The deployment needs a few environment variables to be set for it to function. They are:
-
-| Name              | What It Is                                                                                                               | Example                                                                     |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------- |
-| `DATABASE_URL`    | The connection string for your database. This should have been obtained from Neon                                        | postgresql://user:pass@xyz.ap-southeast-1.aws.neon.tech/app?sslmode=require |
-| `POSTMAN_API_KEY` | An API key to send email via Postman                                                                                     | asdfn_v1_6DBRljleevjsd9DHPThsKDVDSenssCwW9zfA8W2ddf/T                       |
-| `SESSION_SECRET`  | A sequence of random characters used to protect session identifiers, generated by running `pnpx uuid` from your terminal | 66a21b98-fb17-4259-ac4f-e94d303ac894                                        |
-
-#### One-click deploy
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fopengovsg%2Fstarter-kit%2Ftree%2Fmain&env=SESSION_SECRET)
-
-## References
-
-The stack originates from [create-t3-app](https://github.com/t3-oss/create-t3-app) and [create-t3-turbo](https://github.com/t3-oss/create-t3-turbo) with some additional OGP-specific tweaks.
+This repo was created from the OGP Starter Kit; the app scaffold (`apps/`, `packages/`,
+`tooling/`) and its CI are unchanged. See [`docs/starter-kit.md`](docs/starter-kit.md).

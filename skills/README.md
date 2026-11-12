@@ -24,9 +24,12 @@ An org admin uploads the skill once and publishes it to the team:
 3. Re-upload after each merged change to `skills/design-handoff/`.
 
 ### Codex
-Codex reads [`AGENTS.md`](../AGENTS.md), which points to this skill. For use outside
-this repo, add the same pointer to `~/.codex/AGENTS.md`, or symlink the folder into
-your Codex skills directory if your version supports `SKILL.md` skills.
+Works in this repo out of the box (`.agents/skills/design-handoff` + `AGENTS.md`).
+For use everywhere, see [`design-handoff/adapters/codex.md`](design-handoff/adapters/codex.md).
+
+### Paper
+Needs Paper Desktop's local MCP server connected to your agent — see
+[`design-handoff/adapters/paper.md`](design-handoff/adapters/paper.md).
 
 ### Other tools
 Paste the rules (§1 of `SKILL.md`) plus the matching adapter into the tool's custom

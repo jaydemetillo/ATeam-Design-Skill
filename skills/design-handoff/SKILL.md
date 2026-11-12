@@ -23,6 +23,7 @@ adapter for the exact mechanics:
 | Pencil (`.pen` file, pencil MCP) | [adapters/pencil.md](adapters/pencil.md) |
 | Paper (paper.design) | [adapters/paper.md](adapters/paper.md) |
 | Code — Storybook stories, React screens, routes | [adapters/code.md](adapters/code.md) |
+| Running as Codex (setup, invocation, differences) | [adapters/codex.md](adapters/codex.md) — then the tool adapter above |
 | Anything else | Map each concept in §1 to the closest feature; if one has no equivalent, say so and use Linear for status |
 
 ---
