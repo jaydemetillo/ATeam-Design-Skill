@@ -29,7 +29,8 @@ Add MCP servers in `~/.codex/config.toml`:
 | Code / Storybook | No MCP needed for files; Storybook MCP per `AGENTS.md` — see [code.md](code.md) |
 
 ## Differences from Claude
-- `design-validate` is invoked as `$design-handoff validate <container link> against <PRD | "no PRD">`.
+- `design-validate` is its own skill: `$design-validate <container link> against <PRD | "no PRD">`.
+  Link `skills/design-validate` alongside `skills/design-handoff` when installing outside this repo.
 - Codex has no per-tool approval prompt for every MCP write in some sandbox modes —
   the "rename only after the user says yes" rule still applies: print the rename
   table and wait for an explicit yes in chat before writing.

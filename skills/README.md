@@ -6,6 +6,7 @@ the same files.
 
 | Skill | What it does |
 |---|---|
+| [`design-validate`](design-validate/SKILL.md) | `/design-validate <section> against <PRD \| "no PRD"> [and <repo>]` — runs the check from design-handoff §3. Install alongside design-handoff. |
 | [`design-handoff`](design-handoff/SKILL.md) | Engineering x Design conventions: one container per flow, `Feature/NN Step/State` screen names, `[NN Step]` notes, Ready for dev, and the `design-validate` check. Adapters for Figma, Pencil, Paper and code. |
 
 ## Install
