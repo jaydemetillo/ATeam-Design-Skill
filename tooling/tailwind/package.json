@@ -1,0 +1,30 @@
+{
+  "name": "@acme/tailwind-config",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    "./theme": "./theme.css",
+    "./postcss-config": "./postcss-config.js"
+  },
+  "scripts": {
+    "clean": "git clean -xdf .cache .turbo node_modules",
+    "format": "oxfmt --ignore-path ../../.gitignore .",
+    "lint": "oxlint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "catalog:tailwindcss4",
+    "postcss": "^8.5.25",
+    "tailwindcss": "catalog:tailwindcss4"
+  },
+  "devDependencies": {
+    "@acme/oxlint-config": "workspace:*",
+    "@acme/tsconfig": "workspace:*",
+    "@types/node": "catalog:",
+    "oxfmt": "catalog:",
+    "oxlint": "catalog:",
+    "oxlint-tsgolint": "catalog:",
+    "typescript": "catalog:"
+  }
+}

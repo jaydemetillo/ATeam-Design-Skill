@@ -1,0 +1,45 @@
+{
+  "name": "@acme/oxlint-config",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Shared Oxlint rules (TypeScript; consumed via extends imports).",
+  "type": "module",
+  "exports": {
+    ".": "./package.ts",
+    "./shared.ts": "./shared.ts",
+    "./presets.ts": "./presets.ts",
+    "./react-doctor.ts": "./react-doctor.ts",
+    "./next-react-doctor.ts": "./next-react-doctor.ts",
+    "./react-query.ts": "./react-query.ts",
+    "./e18e.ts": "./e18e.ts",
+    "./playwright.ts": "./playwright.ts",
+    "./tailwindcss.ts": "./tailwindcss.ts",
+    "./acme.ts": "./acme.ts",
+    "./plugin": "./plugin/index.ts"
+  },
+  "scripts": {
+    "clean": "git clean -xdf .cache .turbo node_modules",
+    "format": "oxfmt --ignore-path ../../.gitignore .",
+    "lint": "oxlint plugin",
+    "test": "vitest",
+    "test:ci": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@oxlint/plugins": "catalog:",
+    "ultracite": "catalog:"
+  },
+  "devDependencies": {
+    "@acme/tsconfig": "workspace:*",
+    "@e18e/eslint-plugin": "catalog:",
+    "@types/node": "catalog:",
+    "eslint-plugin-playwright": "catalog:",
+    "oxfmt": "catalog:",
+    "oxlint": "catalog:",
+    "oxlint-plugin-react-doctor": "catalog:",
+    "oxlint-tailwindcss": "catalog:",
+    "oxlint-tsgolint": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:vitest"
+  }
+}

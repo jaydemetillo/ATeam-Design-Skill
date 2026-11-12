@@ -1,0 +1,42 @@
+import type { PropsWithChildren } from 'react'
+
+import type { SlotsToClasses } from '@opengovsg/oui-theme'
+import { cn } from '@opengovsg/oui-theme'
+
+export const LandingSection = ({
+  children,
+  className,
+  classNames,
+}: PropsWithChildren<{
+  className?: string
+  classNames?: SlotsToClasses<'section' | 'inner'>
+}>) => (
+  <section className={className ?? classNames?.section}>
+    <div
+      className={cn(
+        'container mx-auto flex flex-col gap-4 px-4 py-14 md:py-22',
+        classNames?.inner
+      )}
+    >
+      {children}
+    </div>
+  </section>
+)
+
+export const SectionHeader = ({
+  children,
+  className,
+}: PropsWithChildren<{ className?: string }>) => (
+  <h2
+    className={cn(
+      'prose-responsive-heading-heavy text-base-content-strong md:prose-responsive-heading-heavy-480',
+      className
+    )}
+  >
+    {children}
+  </h2>
+)
+
+export const SectionBody = ({ children }: PropsWithChildren) => (
+  <p className="prose-body-1 text-base-content-default">{children}</p>
+)

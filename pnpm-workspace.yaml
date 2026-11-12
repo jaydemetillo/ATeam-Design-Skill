@@ -1,0 +1,184 @@
+packages:
+  - apps/*
+  - packages/*
+  - tooling/*
+
+catalog:
+  '@hookform/resolvers': ^5.2.2
+  '@opengovsg/logging': ^0.5.1
+  '@types/node': ^24.10.4
+  'oxlint': ^1.90.0
+  '@oxlint/plugins': ^1.90.0
+  'oxlint-tailwindcss': ^1.17.1
+  'oxlint-plugin-react-doctor': ^0.9.18
+  '@e18e/eslint-plugin': ^0.8.1
+  'eslint-plugin-playwright': ^2.12.2
+  'oxlint-tsgolint': ^7.0.2005
+  dd-trace: ^6.21.0
+  dotenv-cli: ^11.0.0
+  oxfmt: ^0.75.0
+  prisma-extension-kysely: ^4.0.0
+  prisma-kysely: ^3.1.0
+  react-aria-components: 1.16.0
+  react-hook-form: ^7.69.0
+  sherif: ^1.13.0
+  typescript: ^7.0.2
+  ultracite: ^8.1.0
+  zod: ^4.6.7
+
+catalogs:
+  next:
+    '@next/env': 16.4.5
+    next: 16.4.5
+  oui:
+    '@opengovsg/oui': 0.0.52
+    '@opengovsg/oui-theme': 0.0.52
+  playwright:
+    '@playwright/test': 1.57.0
+    playwright: 1.57.0
+  prisma:
+    '@prisma/adapter-pg': 7.10.1
+    '@prisma/client': 7.10.1
+    prisma: 7.9.1
+  react:
+    '@types/react': ^19.3.0
+    '@types/react-dom': ^19.3.0
+    react: ^19.3.1
+    react-dom: ^19.3.1
+  react-query5:
+    '@tanstack/react-query': ^5.105.0
+    '@tanstack/react-query-devtools': ^5.105.0
+  storybook10:
+    '@storybook/addon-a11y': ^10.6.5
+    '@storybook/addon-docs': ^10.6.5
+    '@storybook/addon-mcp': ^10.6.5
+    '@storybook/addon-vitest': ^10.6.5
+    '@storybook/nextjs-vite': ^10.6.5
+    storybook: ^10.6.5
+    storybook-addon-vite-mock: ^1.1.4
+  t3-env:
+    '@t3-oss/env-core': ^0.13.8
+    '@t3-oss/env-nextjs': ^0.13.8
+  tailwindcss4:
+    '@tailwindcss/postcss': ^4.3.4
+    '@tailwindcss/vite': ^4.3.4
+    tailwindcss: ^4.3.3
+  trpc:
+    '@trpc/client': ^11.18.0
+    '@trpc/server': ^11.18.0
+    '@trpc/tanstack-react-query': ^11.18.0
+  vitest:
+    '@vitest/browser': ^5.0.5
+    '@vitest/browser-playwright': ^5.0.3
+    '@vitest/coverage-v8': ^5.0.3
+    vitest: ^5.0.3
+
+linkWorkspacePackages: true
+
+blockExoticSubdeps: true
+
+# We do not use a pnpmfile. Explicitly disable lookup so dd-trace's ESM loader
+# hook (injected via NODE_OPTIONS=--import in CI) does not turn the default
+# `.pnpmfile.mjs` lookup into a hard ERR_MODULE_NOT_FOUND failure.
+pnpmfile: []
+
+# Block any version published in the last 24h, including transitive deps.
+# Most malicious releases get yanked inside that window (~2.5h for the
+# September 2025 chalk/debug attack, ~12h for Shai-Hulud 2.0).
+# Setting this also turns on `minimumReleaseAgeStrict`, so install fails
+# instead of quietly picking a version that is still too new.
+minimumReleaseAge: 1440
+
+# Keep the cooldown even when registry metadata has no `time` field.
+# Harmless on registry.npmjs.org (it always has `time`). Matters if we
+# ever point at a private registry, mirror, or proxy that omits it.
+minimumReleaseAgeIgnoreMissingTime: false
+
+minimumReleaseAgeExclude:
+  # Matches the package name for every version, forever. A bare name is a
+  # permanent hole in the cooldown, not a one-off hotfix.
+  # For a CVE, pin a version (e.g. `vitest@4.1.8`) and remove it after the
+  # cooldown window. `pnpm audit --fix` writes entries that way.
+  #
+  # We publish this scope ourselves, so the cooldown does nothing useful:
+  - '@opengovsg/*'
+  #
+  # Leave empty otherwise. Only add a pinned entry when the security fix is
+  # newer than `minimumReleaseAge`. If the patched version is already >24h
+  # old, the cooldown lets it through on its own.
+
+  # Under pnpm v12, every package with a build script must be listed here as
+  # true (run the script) or false (skip it). Leaving one unlisted throws
+  # ERR_PNPM_IGNORED_BUILDS and fails install (e.g. in CI).
+allowBuilds:
+  '@prisma/client': true
+  '@prisma/engines': true
+  prisma: true
+  '@datadog/native-appsec': false
+  '@datadog/native-iast-taint-tracking': false
+  '@datadog/native-metrics': false
+  '@datadog/pprof': false
+  core-js-pure: false
+  cpu-features: false
+  dd-trace: false
+  esbuild: false
+  msw: false
+  protobufjs: false
+  sharp: false
+  ssh2: false
+
+overrides:
+  # @storybook/addon-mcp → @tmcp/adapter-valibot → @valibot/to-json-schema@1.8.0 requires valibot ^1.5.0
+  valibot: ^1.5.0
+  '@types/minimatch': 5.1.2
+  # Prevent inclusion of sharp-libvips-*, which uses a copyleft license
+  '@img/sharp-libvips-darwin-arm64': '-'
+  # --- Security overrides for transitive dependencies (see `pnpm audit`).
+  # Each override forces a vulnerable transitive (pinned by a parent we
+  # don't control) onto a patched version while staying inside the
+  # parent's accepted major range. Re-evaluate when bumping the listed
+  # parent — many of these become redundant once the parent ships a
+  # newer dependency tree.
+  #
+  # Pinned by prisma@7.8.0 -> @prisma/dev / @prisma/config / @prisma/streams-local:
+  '@hono/node-server@1': '^1.19.13'
+  'ajv@8': '^8.18.0'
+  'defu@6': '^6.1.5'
+  'effect@3': '^3.20.0'
+  'hono@4': '^4.12.18'
+  # Pinned by chevrotain (prisma-kysely -> @mrleebo/prisma-ast) to lodash 4.17.21:
+  'lodash@4': '^4.17.24'
+  # Pinned by prisma@7.9.1 -> @prisma/config / @prisma/internals / prisma-kysely
+  # (deepmerge-ts, fast-uri) and prisma@7.9.1's mysql2 driver dep directly:
+  deepmerge-ts@<8.0.0: ^8.0.0
+  fast-uri@>=3.0.0 <3.1.6: ^3.1.6
+  mysql2@<3.22.0: ^3.22.0
+
+# Fail install if a package's publishing trust drops vs earlier releases
+# (Trusted Publisher > provenance > none). Stolen maintainer credentials
+# almost always downgrade trust, because the attacker publishes from their
+# own machine and cannot use the victim's CI. Would have caught the
+# August 2025 s1ngularity attack.
+trustPolicy: no-downgrade
+
+# Skip trust checks for releases older than this. 525600 minutes = 1 year,
+# roughly when provenance became common.
+trustPolicyIgnoreAfter: 525600
+
+# Pin the registry so a global config or `pnpm_config_*` env var cannot
+# redirect resolution somewhere else.
+registries:
+  default: https://registry.npmjs.org/
+
+# Anything listed here is importable from the repo root without a direct
+# dependency declaration. Keep the globs tight. `*oxfmt*` and
+# `*@opengovsg/oui*` each match a couple of packages; `*prisma*` used to
+# hoist all 21 `@prisma/*` internals.
+publicHoistPattern:
+  - '*oxfmt*'
+  - '*@opengovsg/oui*'
+  - prisma
+  - '@prisma/client'
+  - prisma-extension-kysely
+  - prisma-kysely
+  - pg

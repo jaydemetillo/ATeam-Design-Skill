@@ -1,0 +1,70 @@
+{
+  "name": "@acme/db",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "default": "./src/index.ts"
+    },
+    "./extensions": {
+      "types": "./dist/src/extensions.d.ts",
+      "default": "./src/extensions.ts"
+    },
+    "./browser": {
+      "types": "./dist/src/browser.d.ts",
+      "default": "./src/browser.ts"
+    },
+    "./client": {
+      "types": "./dist/src/client.d.ts",
+      "default": "./src/client.ts"
+    },
+    "./enums": {
+      "types": "./dist/src/enums.d.ts",
+      "default": "./src/enums.ts"
+    },
+    "./kysely": {
+      "types": "./dist/src/kysely.d.ts",
+      "default": "./src/kysely.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "format": "oxfmt --ignore-path ../../.gitignore .",
+    "generate": "pnpm with-env prisma generate",
+    "lint": "oxlint .",
+    "migrate:deploy": "pnpm with-env prisma migrate deploy",
+    "migrate:dev": "pnpm with-env prisma migrate dev",
+    "push": "pnpm with-env prisma db push",
+    "reset": "pnpm with-env prisma migrate reset",
+    "seed": "pnpm with-env prisma db seed",
+    "studio": "pnpm with-env prisma studio --port 5556",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false",
+    "with-env": "dotenv -e ../../.env --"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "catalog:prisma",
+    "@prisma/client": "catalog:prisma",
+    "@t3-oss/env-core": "catalog:t3-env",
+    "kysely": "^0.28.17",
+    "pg": "^8.16.3",
+    "prisma-extension-kysely": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@acme/oxlint-config": "workspace:*",
+    "@acme/tsconfig": "workspace:*",
+    "@types/node": "catalog:",
+    "dotenv-cli": "catalog:",
+    "oxfmt": "catalog:",
+    "oxlint": "catalog:",
+    "oxlint-tsgolint": "catalog:",
+    "prisma": "catalog:prisma",
+    "prisma-kysely": "catalog:",
+    "typescript": "catalog:"
+  }
+}

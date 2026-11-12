@@ -1,0 +1,56 @@
+name: 'OGP CodeQL'
+
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+  schedule:
+    - cron: '0 10 * * *'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  analyze:
+    name: Analyze (${{matrix.language}})
+    runs-on: ${{(matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest'}}
+    timeout-minutes: ${{(matrix.language == 'swift' && 120) || 360}}
+    permissions:
+      # Required for all workflows
+      security-events: write
+
+      # Required to fetch internal or private CodeQL packs
+      packages: read
+
+      # Only required for workflows in private repositories
+      actions: read
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - language: javascript-typescript
+            build-mode: none
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # Initializes the CodeQL tools for scanning.
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@1fc58d04a4d4374f921bdac573c3811c240f9c26 # v4.39.2
+        with:
+          languages: ${{matrix.language}}
+          build-mode: ${{matrix.build-mode}}
+
+          # Pull config from https://github.com/opengovsg/codeql-config/blob/prod/codeql-config.yml
+          config-file: opengovsg/codeql-config/codeql-config.yml@prod
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@1fc58d04a4d4374f921bdac573c3811c240f9c26 # v4.39.2
+        with:
+          category: '/language:${{matrix.language}}'
