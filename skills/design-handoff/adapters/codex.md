@@ -35,3 +35,9 @@ Add MCP servers in `~/.codex/config.toml`:
   the "rename only after the user says yes" rule still applies: print the rename
   table and wait for an explicit yes in chat before writing.
 - Keep MCP auth tokens in Codex's config or keychain, never in this repo.
+
+## Notes when building screens
+Before implementing a screen, read its note block from the design tool (Figma text
+note + annotations, Paper/Pencil text layer). Copy it verbatim into that screen's story
+or component as described in [code.md](code.md). When a design is generated from code,
+copy the block back under the screen.

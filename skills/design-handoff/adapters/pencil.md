@@ -5,7 +5,7 @@
 | Flow container | Top-level frame on the canvas named after the flow, holding the screens |
 | Screen | Direct child frame of the flow container |
 | Screen name | The node's name — `Team/02 Details/Filled` |
-| Note | Text node under the screen inside the container, starting `[NN Step]` |
+| Note | `Notes · <screen name>` text node under each screen |
 | Container link | The `.pen` file path + container node name (no deep links) |
 | Ready for dev / Completed | No native status → Linear ticket status, with the container name in the ticket |
 
@@ -16,3 +16,8 @@
   `batch_design`, setting the name in the same operation.
 - **Bulk rename**: `batch_design` with name updates — only after the user approves the rename table.
 - Read `get_guidelines` first for the file's own layout conventions.
+
+## Notes on each screen
+- **Note block**: a text node directly under each screen, inside the container, named
+  `Notes · <screen name>`, one `[NN Step] …` line per fact.
+- Pencil has no annotations — copy any Figma annotations into the block when importing.

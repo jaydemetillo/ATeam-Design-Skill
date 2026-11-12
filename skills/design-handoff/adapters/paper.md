@@ -5,7 +5,7 @@
 | Flow container | A frame/group on the canvas named after the flow (`Adding Team`), holding the artboards |
 | Screen | Artboard inside the flow container |
 | Screen name | Artboard name — `Team/02 Details/Filled` |
-| Note | Text layer under the artboard, inside the container, starting `[NN Step]` |
+| Note | `Notes · <screen name>` text layer under each artboard |
 | Container link | Paper file link + container name (deep links to a node aren't guaranteed) |
 | Ready for dev / Completed | No native status → Linear ticket status |
 
@@ -36,3 +36,12 @@ claude mcp add paper --transport http http://127.0.0.1:29979/mcp --scope user
 - **No MCP connected?** Fall back to check-only: ask for the artboard names or a
   screenshot, run §3.1, and hand back the rename table. Never claim a change happened
   in Paper unless a tool confirmed it.
+
+## Notes on each screen
+Paper has no annotation feature, so the note block is the only carrier.
+- **Note block**: a text layer directly under each artboard, inside the container,
+  named `Notes · <screen name>`, one `[NN Step] …` line per fact.
+- **From Figma**: copy each screen's block (including lines that were Figma
+  annotations) into a text layer under the matching artboard.
+- **From code**: copy the block from the screen's story/component (see [code.md](code.md)).
+- When generating code from Paper (`get_jsx`), carry the block into the code as below.

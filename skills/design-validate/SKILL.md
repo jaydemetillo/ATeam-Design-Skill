@@ -29,6 +29,9 @@ Run design-handoff §3 in order:
 
 1. **§3.1 Names** — list top-level screens (ignore tiny frames like icons), flag anything
    not `Feature/NN Step/State`, propose a rename table. **Rename only after the user says yes.**
+   Also check every screen has its own note block (`Notes · <screen name>`), every note
+   line's tag matches a screen, and every tool annotation is copied into its screen's
+   block. Offer to fix, again only after yes.
 2. **§3.2 Sources** — read the PRD/ticket, the data model if a repo is given, and the
    screens' notes and annotations.
 3. **§3.3 Gaps** — PRD not covered, empty and "lots of", long text, invalid input, users in

@@ -58,14 +58,34 @@ Example: `Team/03 Add users/One selected`
 - Exploration variants: suffix a valid name —
   `Team/03 Add users/One selected — Variant A`. Drop the suffix once chosen for dev.
 
-### 1.3 Notes
-- Notes sit **directly under their screen**, inside the container, starting with
-  the step tag: `[04 Review] This list can scroll, don't limit it to 3 people`.
-- State-specific: `[04 Review/Choose admin] …`.
-- A note must never overlap another screen. Tool-native annotations are fine if
-  they don't block neighbouring screens; the agent reads them either way.
+### 1.3 Notes live on each screen
+Every screen carries its **own note block**, directly under it, inside the container.
+Notes never live in a separate file or a shared notes area — wherever the screen goes
+(Figma, Paper, Pencil, code), its note block goes with it under the same screen name.
 
-### 1.4 Sharing & status
+Each line starts with the step tag, so it reads the same in every tool:
+```
+[04 Review] This list can scroll, don't limit it to 3 people
+[04 Review/Choose admin] Interaction · Admin picker: only current members are listed
+```
+- `[NN Step]` for the whole step, `[NN Step/State]` for one screen — as in the doc.
+- Optional `Type · Element:` after the tag, so engineers can scan by kind. Types:
+  **Interaction · Validation · Data · A11y · Edge case · Copy · Motion**.
+- One fact per line. Write what isn't visible: behaviour, limits, rules, data source.
+- A note must never overlap another screen.
+- **Tool annotations** (e.g. Figma Dev Mode) are fine for pinning a note to one
+  element, but every annotation must also appear as a line in that screen's note
+  block — annotations don't survive the move to Paper, Pencil or code; the block does.
+
+### 1.4 Carrying notes across tools
+Whenever a screen is moved or rebuilt in another tool, copy its note block with it —
+verbatim, same tags. See each adapter's "Notes" section for where the block goes.
+- Design → code: the block goes into that screen's story/component (see code adapter).
+- Code → design: the block in code becomes the text note under the screen.
+- Engineers may add lines (`[02 OTP] Built as… / Changed because…`); agents never
+  delete another person's line, only add or flag it.
+
+### 1.5 Sharing & status
 - Share **one link to the container**, never a list of screen links. When reporting
   work, always give the container link.
 - **Ready for dev** is the designer's call. The agent never sets it unprompted; when
@@ -83,8 +103,9 @@ Example: `Team/03 Add users/One selected`
 3. Plan steps and states before drawing. Include the states design-validate would
    flag (§3.3) when in scope — at minimum Empty and Error for any list or form.
 4. Name every screen at creation time. Never leave a default name.
-5. Add `[NN Step]` notes for behaviour that isn't visible (scrolling, limits,
-   validation, data source).
+5. Give every screen its note block (§1.3) for behaviour that isn't visible
+   (scrolling, limits, validation, data source). If you add a tool annotation, add
+   the same line to the block.
 6. Self-check (§3.1) the container you touched, fix anything off, report its link.
 
 Project design-system rules (tokens, layout, accessibility) still apply; this skill
@@ -106,6 +127,8 @@ Invoked through the separate [`design-validate`](../design-validate/SKILL.md) sk
 - Flag: wrong pattern, mixed Feature words, missing/duplicate NN, missing State,
   duplicate names, screens outside the container, loose title text, notes missing
   `[NN …]` or overlapping screens.
+- Notes: screens with no note block, note lines whose tag matches no screen, and
+  tool annotations not copied into the screen's block. Offer to copy them in (after yes).
 - Propose a rename table (old → new). **Apply renames only after the user says yes**
   (screens the agent created this session are exempt).
 
@@ -143,6 +166,8 @@ Ready-for-dev reminder. The designer fixes, sorts decisions with the PM, reruns.
 
 ## 4. Never
 - Leave a created/edited screen unnamed or outside its flow container.
+- Keep a screen's notes anywhere but on that screen (no separate notes files), or
+  move a screen to another tool without its note block.
 - Use a floating text title instead of a container.
 - Rename existing screens without the user's yes.
 - Set Ready for dev or Completed unless explicitly told.
