@@ -45,3 +45,22 @@ Paper has no annotation feature, so the note block is the only carrier.
   annotations) into a text layer under the matching artboard.
 - **From code**: copy the block from the screen's story/component (see [code.md](code.md)).
 - When generating code from Paper (`get_jsx`), carry the block into the code as below.
+
+## Existing file (§2B)
+**Audit (read-only)** — ask the designer to select the page area or flow, then
+`get_selection` (and `get_jsx` / `get_screenshot` if needed):
+- Flows: existing frames/groups holding artboards; else rows of artboards with a large
+  title text above them.
+- Screens: artboards — record names; state clues from content.
+- Notes: loose text layers near artboards; artboards with no `Notes · <screen name>` layer.
+- Status: Paper has none — check the Linear ticket if one was given.
+
+**Apply (only what was approved)** — use Paper's rename / reparent / create tools
+(check the live tool list): rename artboards, reparent artboards into a new flow
+frame, move/tag loose text into note layers. For **status**, ask "Update the Linear
+ticket to Ready for dev?" — only if a Linear tool is connected; otherwise tell the
+designer what to set.
+
+**No Paper MCP connected** — run the audit from names/screenshots the designer
+provides, ask the same questions, then hand back a checklist (rename table, grouping,
+notes to add) for the designer to apply by hand.

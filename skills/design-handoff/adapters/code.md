@@ -50,3 +50,17 @@ In code, the screen is its story (or its screen component), so the note block li
 - Engineers add `Built as…` / `Changed because…` lines in the same place, tagged the
   same way, so the next design pass can read them back.
 - Never move notes to a shared NOTES.md or wiki — they stay on the screen.
+
+## Existing code (§2B)
+**Audit (read-only)** — grep `*.stories.*` for `title:` and story exports, and find
+screen components/routes:
+- Flows: story title groups; else route folders (`app/team/add/...`).
+- Screens: story titles not in `Flows/<Flow>/<Feature>/NN Step` form; stories with no state name.
+- Notes: stories without a note block in `parameters.docs.description.story`; loose
+  `// TODO`/design comments that belong in a block.
+- Status: PR labels / Linear.
+
+**Ask, then apply as a diff** — same order as §2B. Warn before renaming story titles:
+it changes story IDs, which breaks bookmarked Storybook links and Chromatic baselines —
+offer `parameters.docs` notes without renames as a lower-risk option. Never rename
+components, files or routes as part of this; only story titles and note blocks.

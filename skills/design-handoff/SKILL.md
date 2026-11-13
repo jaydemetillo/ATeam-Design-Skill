@@ -1,6 +1,6 @@
 ---
 name: design-handoff
-description: Engineering x Design handoff conventions for any design or UI tool — Figma, Pencil (.pen), Paper, Storybook/code, or anything else Claude or Codex builds screens in. MANDATORY whenever the agent creates, edits, renames, organises, reads-for-build, or reviews screens. Enforces one container per flow, screen names in `Feature/NN Step/State`, notes tagged `[NN Step] …` under their screen, and a Ready-for-dev status the designer sets. Also runs design-validate — naming audit, PRD/data-model coverage, missing states (empty, many, long text, invalid input, multi-team users, failed saves) — max 10 items, PM decisions first. Triggers on any design-tool write, "validate this flow", "/design-validate", "is this ready for dev", "hand this off", "rename the screens", "organise this flow", or a design link plus a Linear ticket or PRD.
+description: Engineering x Design handoff conventions for any design or UI tool — Figma, Pencil (.pen), Paper, Storybook/code, or anything else Claude or Codex builds screens in. MANDATORY whenever the agent creates, edits, renames, organises, reads-for-build, or reviews screens. Enforces one container per flow, screen names in `Feature/NN Step/State`, notes tagged `[NN Step] …` under their screen, and a Ready-for-dev status set only after the user says yes. In an existing file it audits first and asks before renaming screens, grouping flows, moving notes or changing status. Also runs design-validate — naming audit, PRD/data-model coverage, missing states (empty, many, long text, invalid input, multi-team users, failed saves) — max 10 items, PM decisions first. Triggers on any design-tool write, "validate this flow", "/design-validate", "is this ready for dev", "hand this off", "rename the screens", "organise this flow", "tidy up this file", "get this ready for dev", or a design link plus a Linear ticket or PRD.
 ---
 
 # Design Handoff (Engineering x Design)
@@ -88,14 +88,29 @@ verbatim, same tags. See each adapter's "Notes" section for where the block goes
 ### 1.5 Sharing & status
 - Share **one link to the container**, never a list of screen links. When reporting
   work, always give the container link.
-- **Ready for dev** is the designer's call. The agent never sets it unprompted; when
-  design-validate is clean it reminds the designer to mark it and paste the link
-  into the Linear ticket.
-- Engineers set **Completed** when shipped. The agent doesn't change it unless asked.
+- **Ready for dev** is the designer's call. The agent never sets it on its own; it
+  **asks** ("Mark *Adding Team* as Ready for dev?") and sets it only after a yes. If
+  design-validate isn't clean, say what's open before asking. After setting it,
+  remind the designer to paste the container link into the Linear ticket.
+- **Completed** is the engineer's call — same rule: ask, set only after a yes.
+- Where the tool has no status (Paper, Pencil, code), status lives in Linear; ask
+  before suggesting a change there.
 
 ---
 
-## 2. Build workflow
+## 2. Two modes: new work vs existing file
+
+Decide which mode you're in before touching anything:
+- **New work** — the user asked you to create screens or a flow, or you're adding new
+  screens. Follow §2A: build it right first time, no questions about naming.
+- **Existing file** — the screens/flows already exist and you didn't create them in
+  this session (a link to an existing file, page or section; "tidy this up"; "get this
+  ready for dev"). Follow §2B: **audit, then ask before changing anything.**
+
+A mix (adding screens to an existing flow) uses §2A for the new screens and §2B for
+anything that was already there.
+
+## 2A. New work — build workflow
 
 1. Locate or create the flow container. Ask for the flow name only if it can't be
    inferred.
@@ -110,6 +125,62 @@ verbatim, same tags. See each adapter's "Notes" section for where the block goes
 
 Project design-system rules (tokens, layout, accessibility) still apply; this skill
 adds the handoff structure on top.
+
+## 2B. Existing file — audit, then ask
+
+Never rename, move, regroup, rewrite notes or change status in an existing file
+without an explicit yes. Read first, change nothing until the user answers.
+
+### Step 1 — Audit (read-only)
+Scan the page/section the user pointed at (adapter says how) and work out:
+- **Flows**: which screens belong together. Clues: an existing section/frame, a
+  floating title text above a row of screens, shared name prefixes, screens laid out
+  in a row, prototype links between them.
+- **Screens**: current name → proposed `Feature/NN Step/State` (step order from the
+  layout left → right / prototype order; state from what's on screen: empty list,
+  error message, loading spinner…).
+- **Notes**: loose text near screens, notes not tagged `[NN Step]`, annotations not
+  mirrored into a note block, screens with no notes.
+- **Status**: current status of each flow container (Ready for dev / Completed / none).
+
+### Step 2 — Show the summary
+One short message, before any question:
+```
+I found 3 flows on "Explorations" (24 screens):
+- "Team stuff" title + 9 screens → looks like Adding Team
+- 6 screens named manage-inventory-1…6 → looks like Editing Team
+- 9 screens not in any group
+Names: 22 of 24 don't follow Feature/NN Step/State. Notes: 5 loose, 14 screens have none.
+Status: none set.
+```
+
+### Step 3 — Ask, one topic at a time, in this order
+How to ask depends on where you're running:
+- **Claude Code / Claude desktop**: use the question tool (multiple choice, your
+  proposal first) — one topic per question.
+- **claude.ai, Codex, anything without a question tool**: a short numbered list in
+  chat with your proposals; accept answers like "1 yes, 2 Teams, 3 skip".
+Ask about one topic per message, with your proposal filled in so the user can just
+say yes. Each question offers: **yes to all · let me pick · skip**. Wait for the
+answer before the next topic.
+1. **Flows** — "Wrap these 9 screens in a section called **Adding Team**?" (one
+   question per flow; offer your proposed name and accept a different one).
+2. **Feature word** — "Use **Team** as the feature name for both flows?"
+3. **Screen names** — show the rename table (old → new) per flow, then "Rename these 9 screens?"
+4. **Notes** — "Turn the 5 loose notes into note blocks under their screens and tag
+   them? Add empty note blocks to the 14 screens with none?" Never rewrite the
+   meaning of someone's note — only move, tag and type it.
+5. **Status** — only after 1–4: "Mark **Adding Team** as Ready for dev?" If
+   design-validate isn't clean, say what's open and offer to run it first.
+
+If the user says "just do it all", still show the full list of changes once and get
+one yes before applying.
+
+### Step 4 — Apply and report
+- Apply only what was approved, in small batches, flow by flow.
+- Never delete anything. Replaced title text and empty wrapper frames are left in
+  place (or moved aside) unless the user says to remove them.
+- Report what changed with the container link(s), and what was skipped.
 
 ---
 
@@ -169,8 +240,8 @@ Ready-for-dev reminder. The designer fixes, sorts decisions with the PM, reruns.
 - Keep a screen's notes anywhere but on that screen (no separate notes files), or
   move a screen to another tool without its note block.
 - Use a floating text title instead of a container.
-- Rename existing screens without the user's yes.
-- Set Ready for dev or Completed unless explicitly told.
+- Rename, regroup, move notes or change status in an existing file without the user's yes (§2B).
+- Set Ready for dev or Completed without asking first and getting a yes.
 - Output more than 10 validate items, or put states above PM decisions.
 - Hand back individual screen links when a container link exists.
 - Put real file keys, tokens, internal URLs, PRD text or user data into this skill
