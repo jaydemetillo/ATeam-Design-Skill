@@ -41,3 +41,16 @@ Before implementing a screen, read its note block from the design tool (Figma te
 note + annotations, Paper/Pencil text layer). Copy it verbatim into that screen's story
 or component as described in [code.md](code.md). When a design is generated from code,
 copy the block back under the screen.
+
+## Existing files with Codex (§2B)
+Codex follows the same audit → ask → apply flow. Codex has no question pop-up, so ask in
+chat as a numbered list with your proposals and accept short answers:
+```
+1. Wrap 9 screens in a section "Adding Team"? (yes / other name / skip)
+2. Feature name "Team"? (yes / other / skip)
+3. Rename 9 screens as below? (yes / pick / skip)
+4. Tag 5 loose notes and add note blocks to 14 screens? (yes / skip)
+5. Mark "Adding Team" Ready for dev? (yes / skip)
+```
+Wait for the reply in chat before writing anything — in auto-approve or full-access
+sandbox modes too. Answers like "1 yes, 2 Teams, 3 skip" are fine.

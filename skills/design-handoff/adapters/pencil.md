@@ -21,3 +21,14 @@
 - **Note block**: a text node directly under each screen, inside the container, named
   `Notes · <screen name>`, one `[NN Step] …` line per fact.
 - Pencil has no annotations — copy any Figma annotations into the block when importing.
+
+## Existing file (§2B)
+**Audit (read-only)** — `get_editor_state`, then `batch_get` / `snapshot_layout` on the
+page or container:
+- Flows: top-level frames holding screens; else rows of frames with a title text above.
+- Screens, notes: as Figma — names, loose text near screens, missing `Notes · …` nodes.
+- Status: none in Pencil — Linear.
+
+**Apply (only what was approved)** — `batch_design` for renames, reparenting screens into
+a new flow frame, and creating/moving note text nodes; one flow per call. Status: ask
+before suggesting a Linear change.

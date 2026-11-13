@@ -62,7 +62,8 @@ its link into Linear.
 | **Screens** | `Feature/NN Step/State` — e.g. `Team/03 Add users/One selected`. Mobile: add `/Mobile` |
 | **Notes** | Text under the screen: `[04 Review] This list can scroll…` or `[04 Review/Choose admin] …` |
 | **Share** | One link to the container, never a list of screen links |
-| **Status** | Designer marks Ready for dev; engineer marks Completed. Agents never set either |
+| **Status** | Designer marks Ready for dev; engineer marks Completed. Agents only set either after asking and getting a yes |
+| **Existing files** | Agents audit first, then ask before renaming screens, grouping flows, moving notes or changing status |
 
 Full detail: [`skills/design-handoff/SKILL.md`](skills/design-handoff/SKILL.md).
 

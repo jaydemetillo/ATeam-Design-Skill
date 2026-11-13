@@ -51,6 +51,8 @@ Missing states (design)
 ## After the check
 - Not clean: the designer draws the states, sorts out decisions with the PM, and runs
   `/design-validate` again.
-- Clean: say so, then remind the designer — select the section → Dev Mode (Shift + D) →
-  **Mark as ready for dev** → paste the section link into the Linear ticket. Never set
-  Ready for dev or Completed yourself.
+- Clean: say so, then **ask** "Mark *<Flow>* as Ready for dev?" Set it only after a
+  yes (Figma: `devStatus`; other tools: Linear — see the adapter), then remind the
+  designer to paste the section link into the Linear ticket.
+- Existing file with names, groups or notes to fix: don't fix them silently — run the
+  design-handoff §2B questions (flows → feature word → renames → notes → status).
